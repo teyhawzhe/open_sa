@@ -222,7 +222,9 @@ async function streamFromCommand(command, args, prompt, options, missingMessage)
   return new Promise((resolve, reject) => {
     const proc = spawn(command, args, {
       cwd: options.cwd || process.cwd(),
-      env: buildProcessEnv()
+      env: buildProcessEnv(),
+      shell: shouldUseShellForCommand(command),
+      windowsHide: true
     });
 
     if (options.token) {
@@ -269,10 +271,10 @@ function resolveProviderCommand(provider) {
     ...(provider === "codex" ? findCodexInVSCodeExtensions() : [])
   ].filter(Boolean);
 
-  const found = candidates.find((candidate) => fs.existsSync(candidate));
+  const found = uniquePaths(candidates).find((candidate) => fs.existsSync(candidate));
   return {
     command: found || binName,
-    searched: candidates
+    searched: uniquePaths(candidates)
   };
 }
 
@@ -286,38 +288,79 @@ function buildMissingCliMessage(provider, commandInfo) {
 }
 
 function buildProcessEnv() {
-  const extraPaths = [
-    "/opt/homebrew/bin",
-    "/usr/local/bin",
-    path.join(os.homedir(), ".local", "bin"),
-    path.join(os.homedir(), ".npm-global", "bin")
-  ];
-  const currentPath = process.env.PATH || "";
+  const extraPaths = commonExecutableDirs();
+  const currentPath = process.env.PATH || process.env.Path || "";
+  const mergedPath = uniquePaths([...extraPaths, currentPath]);
 
   return {
     ...process.env,
-    PATH: [...extraPaths, currentPath].filter(Boolean).join(path.delimiter)
+    PATH: mergedPath.join(path.delimiter),
+    Path: mergedPath.join(path.delimiter)
   };
 }
 
 function findOnPath(binName) {
-  const paths = (process.env.PATH || "").split(path.delimiter).filter(Boolean);
-  for (const dir of paths) {
-    const candidate = path.join(dir, binName);
-    if (fs.existsSync(candidate)) return candidate;
+  const executableNames = executableNameCandidates(binName);
+  const dirs = (process.env.PATH || process.env.Path || "").split(path.delimiter).filter(Boolean);
+
+  for (const dir of dirs) {
+    for (const executableName of executableNames) {
+      const candidate = path.join(dir, executableName);
+      if (fs.existsSync(candidate)) return candidate;
+    }
   }
   return "";
 }
 
 function commonCliCandidates(binName) {
-  return [
-    path.join(os.homedir(), ".local", "bin", binName),
-    path.join(os.homedir(), ".npm-global", "bin", binName),
-    path.join(os.homedir(), ".vscode", "extensions", "openai.chatgpt", "bin", "macos-aarch64", binName),
-    `/opt/homebrew/bin/${binName}`,
-    `/usr/local/bin/${binName}`,
-    `/usr/bin/${binName}`
+  return commonExecutableDirs().flatMap((dir) =>
+    executableNameCandidates(binName).map((executableName) => path.join(dir, executableName))
+  );
+}
+
+function commonExecutableDirs() {
+  const home = os.homedir();
+  const dirs = [
+    path.join(home, ".local", "bin"),
+    path.join(home, ".npm-global", "bin")
   ];
+
+  if (process.platform === "darwin") {
+    dirs.push("/opt/homebrew/bin", "/usr/local/bin", "/usr/bin");
+  }
+
+  if (process.platform === "win32") {
+    dirs.push(
+      path.join(home, "AppData", "Roaming", "npm"),
+      path.join(home, "scoop", "shims"),
+      path.join(home, ".cargo", "bin")
+    );
+
+    if (process.env.LOCALAPPDATA) {
+      dirs.push(path.join(process.env.LOCALAPPDATA, "Programs", "Microsoft VS Code", "bin"));
+    }
+  }
+
+  return uniquePaths(dirs);
+}
+
+function executableNameCandidates(binName) {
+  if (path.extname(binName)) return [binName];
+  if (process.platform !== "win32") return [binName];
+
+  const pathext = (process.env.PATHEXT || ".COM;.EXE;.BAT;.CMD")
+    .split(";")
+    .map((ext) => ext.trim().toLowerCase())
+    .filter(Boolean);
+
+  return uniquePaths([
+    binName,
+    ...pathext.map((ext) => `${binName}${ext}`)
+  ]);
+}
+
+function shouldUseShellForCommand(command) {
+  return process.platform === "win32" && /\.(cmd|bat)$/i.test(command);
 }
 
 function findCodexInVSCodeExtensions() {
@@ -330,7 +373,8 @@ function findCodexInVSCodeExtensions() {
     path.join("bin", "macos-x64", "codex"),
     path.join("bin", "linux-x64", "codex"),
     path.join("bin", "linux-aarch64", "codex"),
-    path.join("bin", "win32-x64", "codex.exe")
+    path.join("bin", "win32-x64", "codex.exe"),
+    path.join("bin", "win32-x64", "codex.cmd")
   ];
   const candidates = [];
 
@@ -350,6 +394,19 @@ function findCodexInVSCodeExtensions() {
   }
 
   return candidates.filter((candidate) => fs.existsSync(candidate));
+}
+
+function uniquePaths(values) {
+  const seen = new Set();
+  return values
+    .filter(Boolean)
+    .map((value) => String(value))
+    .filter((value) => {
+      const key = process.platform === "win32" ? value.toLowerCase() : value;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 }
 
 function loadWorkspaceContext(rootPath) {

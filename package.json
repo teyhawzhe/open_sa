@@ -72,6 +72,10 @@
             "description": "初始化系統規格書"
           },
           {
+            "name": "propose",
+            "description": "整理需求草稿"
+          },
+          {
             "name": "status",
             "description": "查看目前規格書狀態"
           },
