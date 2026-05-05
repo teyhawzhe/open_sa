@@ -4,6 +4,83 @@
 
 AI 會協助釐清需求、產出草稿、提醒待確認事項、進行初步風險評估，並維護需求歷程。所有文件在人工確認前都只能視為草稿或待確認，不會自動標示為已審核。
 
+## npm CLI
+
+CLI 只是輔助工具，不是主要使用入口；主要體驗放在 VS Code 側邊欄 Chat。
+
+```bash
+npm install
+npx sa-spec help
+```
+
+可用指令：
+
+- `npx sa-spec init`：初始化 `project/` 與必要規則骨架。
+- `npx sa-spec doctor`：檢查目前工作目錄是否缺少核心檔案。
+- `npx sa-spec status`：查看系統規格書與需求索引摘要。
+- `npx sa-spec install-prompts`：安裝 Codex、Claude、Gemini 側邊欄全域指令。
+- `npx sa-spec template system-spec --stdout`：輸出系統規格書模板。
+- `npx sa-spec template req --id REQ-001 --name login`：建立需求模板資料夾。
+
+若要在其他 VS Code 工作區直接使用 Codex、Claude、Gemini 側邊欄指令，安裝 npm package 後執行一次：
+
+```bash
+sa-spec install-prompts
+```
+
+或未全域安裝時：
+
+```bash
+npx sa-spec install-prompts
+```
+
+## VS Code Chat Integration
+
+主要入口是 VS Code 原生 Chat 側邊欄的 `@sa-spec` participant，整合本機 Codex CLI 與 Claude Code CLI。
+
+目前能力：
+
+- 不建立新的 Activity Bar 圖示，也不建立自訂 webview 側邊欄
+- 在 VS Code 內建 Chat 裡使用 `@sa-spec`
+- 預設使用 Codex，可透過 VS Code 設定 `saSpec.chatProvider` 改成 Claude
+- 可用 `/codex` 或 `/claude` 指定本次訊息使用哪個 CLI
+- 支援 `/init`、`/propose`、`/apply`、`/review`、`/status` chat commands
+- 自動讀取 `AGENTS.md`、`skills/system-analysis/SKILL.md`、`rules/`、`project/`
+
+建議啟動方式：
+
+1. 用 VS Code 開啟本專案。
+2. 左側開啟 Run and Debug，選擇 `Run @sa-spec Chat Participant`。
+3. 按綠色播放按鈕，進入 Extension Development Host。
+4. 在新視窗開啟 VS Code 原生 Chat。
+5. 輸入 `@sa-spec /status`、`@sa-spec /init` 或 `@sa-spec /propose 你的需求`。
+
+目前 Chat participant 會呼叫本機 CLI：
+
+- Codex：`codex -a never exec ...`
+- Claude：`claude -p --permission-mode acceptEdits`
+
+指定 provider 的方式：
+
+- `@sa-spec /codex spec:status`
+- `@sa-spec /claude spec:init`
+- `@sa-spec codex: spec:propose 新增番茄鐘`
+- `@sa-spec claude: spec:review`
+
+若尚未安裝其中一個 CLI，仍可使用另一個 provider；執行缺少的 provider 時會提示找不到指令。
+
+## 側邊欄 Prompt Commands
+
+若使用 Codex、Claude、Gemini 各自的側邊欄，不需要啟動本專案 extension，可直接使用全域 commands。
+
+| 工具 | 指令 |
+|---|---|
+| Codex | `/prompts:spec-init`、`/prompts:spec-propose`、`/prompts:spec-apply`、`/prompts:spec-review`、`/prompts:spec-status` |
+| Claude | `/spec-init`、`/spec-propose`、`/spec-apply`、`/spec-review`、`/spec-status` |
+| Gemini | `/spec:init`、`/spec:propose`、`/spec:apply`、`/spec:review`、`/spec:status` |
+
+Gemini 也已安裝 `sa-spec` skill，當需求與系統分析、SRS、風險、歷程或 `spec:*` 流程相關時可自動套用。
+
 ## 使用前先知道
 
 - 請使用繁體中文描述需求。

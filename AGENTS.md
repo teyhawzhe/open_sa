@@ -50,69 +50,75 @@
 <claude-mem-context>
 # Memory Context
 
-# [ai] recent context, 2026-05-04 12:37pm GMT+8
+# [ai] recent context, 2026-05-05 5:51pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 14 obs (5,139t read) | 150,718t work | 97% savings
+Stats: 50 obs (17,633t read) | 528,875t work | 97% savings
 
-### May 4, 2026
-1 11:27a 🔵 Rules Directory Structure Identified for README Documentation
-2 " 🔵 Personal AI System Analysis Workflow Architecture Fully Mapped
-3 11:28a 🟣 README.md Created for Personal SA AI Workbench
-4 11:32a ⚖️ User Proposed Command-Intent Prefix System Inspired by OpenSpec
-5 11:35a ⚖️ opsx: Command Prefix System Design Proposed with Two Key Choices
-6 " ⚖️ spec:apply Command Scope Decided: Documents Only, Not Product Code
-7 " 🔵 AGENTS.md Modified — opsx: Rule Implementation Started
-S2 spec: command prefix system fully implemented and verified across AGENTS.md, SKILL.md, and readme.md (May 4 at 11:35 AM)
-S1 Add opsx: command prefix system to SA workflow (inspired by OpenSpec-style intent commands like opsx:apply) (May 4 at 11:35 AM)
-8 11:39a 🔵 AGENTS.md Modification Was Trivial Whitespace Only — opsx: Not Yet Implemented
-9 " 🟣 spec: Command Prefix System Implemented Across All Three AI Behavior Files
-S5 Add system spec book + person-day estimation subsystem to AI SA workbench — new rule files, template, and updates to AGENTS.md, SKILL.md, readme.md (May 4 at 11:40 AM)
-10 11:51a ⚖️ spec:risk Should Be Auto-Triggered, Not a Manual Command
-11 11:52a 🔵 claude-mem Observation Text Accidentally Embedded in AGENTS.md
-12 " 🔵 AGENTS.md Contains Claude-mem Context Lines Despite Only 48 Readable Lines Visible
-13 " 🔴 spec:init Addition and spec:risk Removal Patches Failed Silently on All Three Files
-14 11:54a 🔴 apply_patch Permanently Blocked on SKILL.md — Table Row Matching Failure Persists Across 6+ Attempts
-S3 Update spec: command system in AGENTS.md, SKILL.md, and readme.md — remove spec:risk (auto-triggered), add spec:init (system spec book initialization), add auto-trigger clarification note (May 4 at 11:54 AM)
-S4 Final verification and full content audit of AGENTS.md, SKILL.md, and readme.md after completing spec: command system update (add spec:init, remove spec:risk, add auto-trigger note) (May 4 at 11:54 AM)
-**Investigated**: Current state of all three files (AGENTS.md, SKILL.md, readme.md) via rg grep and git diff to verify patch application. Confirmed previous session's patch attempts had succeeded in an earlier apply_patch run.
+### May 5, 2026
+S8 SA Spec VSCode Extension — Add quick command chips, Enter-to-submit, and markdown rendering to sidebar UI (May 5 at 4:00 PM)
+S9 SA Spec VSCode Extension — How to test the sidebar and use the three providers (May 5 at 4:05 PM)
+S10 SA Spec Activity Bar icon not showing — fixed SVG to use currentColor for VSCode mask-image rendering (May 5 at 4:05 PM)
+S11 SA Spec sidebar not rendering — fixed package.json missing "type": "webview" and SVG icon not visible in Activity Bar (May 5 at 4:08 PM)
+S12 Add Anthropic Claude API provider support to the SA Spec VSCode extension sidebar chat (May 5 at 4:10 PM)
+S13 Add VSCode sidebar support to /Users/lovius/ai/ project — user wants a free-form Claude chat panel in the sidebar, not just a fixed SA Spec workflow tool (May 5 at 4:16 PM)
+S14 Convert VSCode SA Spec extension sidebar from SA-workflow-only tool into a general-purpose free-form Claude chat panel (May 5 at 4:20 PM)
+S15 Add "claudecode" provider to VSCode sidebar extension — delegates chat to local claude CLI subprocess via stdin, no API key required (May 5 at 4:21 PM)
+S17 Add VSCode sidebar support to /Users/lovius/ai project, similar to OpenSpec, with command invocation capability (May 5 at 4:25 PM)
+69 4:32p ✅ Deleted Unused Webview Media Files and Verified extension.js Syntax
+S18 Add VSCode Chat Participant sidebar to /Users/lovius/ai (sa-spec extension), replacing old Webview sidebar with native @sa-spec Chat integration backed by Claude Code CLI (May 5 at 4:33 PM)
+70 4:38p 🔵 VS Code Extension Project Added to /Users/lovius/ai Repo
+71 " 🟣 SA Spec: VS Code Extension + CLI Tool for System Analysis via Claude Code
+72 4:39p 🟣 extension.js: VS Code Chat Participant Streams Responses via Claude Code CLI
+73 " 🟣 sa-spec CLI: init, doctor, status, template Commands Implemented in src/cli.js
+74 " ⚖️ Extension Simplified to Claude Code CLI Only; Readme Still Documents Older Multi-Provider MVP
+75 " 🔵 Extension Uses Native VS Code Chat API, Not WebView Panel
+76 4:40p 🔵 openai npm Package Installed but Unused in Current extension.js
+77 " 🔵 project/ Contains Blank Template Files; .DS_Store Reveals Previous REQ-001-pomodoro-timer
+78 " ✅ extension.js Deleted from Repository
+79 4:42p 🟣 extension.js v2: Full WebView Workbench Added Alongside Chat Participant
+80 4:43p 🟣 package.json Updated to Declare WebView Workbench in Activity Bar
+81 " ✅ readme.md VS Code Extension Section Rewritten to Document v2 Workbench
+82 " 🔴 extension.js: OutputChannel Leak Fixed and Artifact Button Label Corrected
+83 4:46p 🔵 Codex CLI Is Available on This Machine, Bundled with OpenAI VS Code Extension
+84 " ⚖️ VSCode Chat Sidebar Integration Preferred Over SA Spec Extension
+85 4:54p 🟣 SA Spec VSCode Extension Rebuilt as Native Sidebar Chat with Codex/Claude Dual-Provider Support
+86 " 🔵 Codex CLI `--ask-for-approval` Flag Does Not Exist; Correct Form is `-a never` at Top Level
+87 " 🔄 extension.js Stripped to Pure Native VSCode Chat Participant — Custom Webview Sidebar Removed
+88 4:55p ✅ package.json Cleaned Up to Match Pure Chat Participant Architecture
+89 " ✅ readme.md Updated to Document Final Native VSCode Chat Integration
+90 " 🔵 Final Verification Confirms All Custom Webview/Sidebar Code Fully Removed
+91 " ✅ package.json activationEvents Set to `onChatParticipant:saSpec` for Explicit Extension Activation
+92 " ✅ launch.json Debug Configuration Renamed to Reflect Native Chat Participant Architecture
+97 " 🔵 Codex CLI Installed via VSCode ChatGPT Extension, Claude via ~/.local/bin
+98 5:01p 🔄 CLI Invocation Refactored to Use `resolveProviderCommand` and `buildProcessEnv` Helpers
+99 5:02p 🟣 Robust CLI Path Resolution Added for Codex and Claude Inside VSCode Extension Host
+100 " ✅ package.json Gains `saSpec.codexPath` and `saSpec.claudePath` User-Configurable CLI Override Settings
+101 " 🔵 VSCode Extensions Directory Scan Logic Validated — Codex Binary Correctly Auto-Discovered
+102 5:05p 🔴 `--skip-git-repo-check` Added to Codex Exec Args to Support Non-Git Workspaces
+103 " 🔵 `codex exec --skip-git-repo-check` Confirmed Working with `--output-last-message` Pattern
+104 5:09p 🔵 openspec NPM 安裝後在 VSCode Codex 側邊欄顯示 /prompts:opsx-apply 命令
+105 " 🔵 openspec 透過 ~/.codex/prompts/ 目錄向 VSCode Codex 側邊欄注冊命令
+106 " 🔵 openspec NPM 套件為 @fission-ai/openspec v1.3.1，主項目為 VSCode 擴充功能
+107 5:10p 🔵 opsx Codex prompt 文件結構：YAML frontmatter 的 argument-hint 欄位控制側邊欄顯示
+108 " 🔵 opsx-apply 工作流程：透過 openspec CLI 讀取 contextFiles 實現 AI 驅動任務執行
+109 " 🟣 新增五個 SA Spec Codex prompt 文件，實現系統分析需求管理工作流程
+110 " 🔵 /Users/lovius/ai 專案結構確認：含 src/、templates/ 目錄與未追蹤的 VSCode 擴充功能文件
+113 5:14p 🟣 Sidebar Multi-Provider AI Support: Claude + Gemini
+114 " 🔵 Existing Gemini Provider Test Files Found in thedotmack Plugin Marketplace
+115 " 🔵 Gemini CLI Fully Installed with Parallel Extension/Skills Architecture to Claude
+116 5:15p 🔵 No Custom Commands or Gemini Skills/Extensions Currently Installed
+117 " 🔵 Multi-Provider Agent Architecture Already Exists: GeminiAgent.ts, SDKAgent.ts, OpenRouterAgent.ts
+118 " 🔵 Gemini CLI Extension/Skill Architecture: Storage Paths, Activation Mechanism, and Manifest Format
+119 5:16p 🟣 Scaffolded Directory Structure for Sidebar Multi-Provider Commands and Skills
+120 " 🟣 5 SA Spec Claude Slash Commands Created at Global User Level
+121 " 🟣 5 SA Spec Gemini Custom Commands Created as TOML Files — Parity with Claude Commands
+122 5:17p 🟣 Gemini sa-spec Skill Created — Lazy-Load Trigger for SA Spec Workflows
+123 " 🟣 Multi-Provider SA Spec Sidebar Support Fully Deployed and Verified
+124 " 🟣 readme.md Updated with Three-Provider Sidebar Command Reference Table
 
-**Learned**: - All three files were successfully updated in the previous session's final apply_patch call (confirmed by both rg grep output and git diff)
-    - AGENTS.md lines 65 and 71 still reference spec:apply and spec:risk but only inside the embedded &lt;claude-mem-context&gt; block — these are memory observation entries, NOT rules content, and do not affect AI behavior
-    - The apply_patch tool successfully handles multi-file patches in a single call when the file content exactly matches the patch anchors
-    - readme.md remains untracked in git (??) while AGENTS.md and SKILL.md show as modified (M)
-
-**Completed**: All three target files now reflect the final desired state:
-
-    **AGENTS.md** (lines 35–45):
-    - spec:init added with full description
-    - spec:risk removed from command list
-    - Auto-trigger sentence added: "風險評估、一致性檢查與歷程更新屬於自動觸發的內建行為，不需要額外指令"
-
-    **skills/system-analysis/SKILL.md** (lines 29–47):
-    - spec:init row added to command table
-    - spec:risk row removed from command table
-    - spec:init bullet added to 指令執行規則
-    - Auto-trigger bullet added: "風險評估、跨文件一致性檢查與 history.md 更新屬於自動觸發的內建行為，不需要獨立指令"
-
-    **readme.md** (lines 50–80):
-    - spec:init row added to command table
-    - spec:risk row removed from command table
-    - spec:init example added to 指令範例 section
-    - spec:risk example removed
-    - Intro sentence updated to mention spec:init
-    - Auto-trigger paragraph added at line 80
-
-    Final command set across all three files: spec:init, spec:propose, spec:apply, spec:review, spec:status
-
-**Next Steps**: All pending tasks are complete. Optional remaining cleanup:
-    - Remove the embedded &lt;claude-mem-context&gt; contamination block from AGENTS.md (lines ~47+) — this is cosmetic/maintenance, does not affect AI behavior
-    - Commit the changes (git add/commit for AGENTS.md, SKILL.md, and readme.md)
-    No active work in progress.
-
-
-Access 151k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 529k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
